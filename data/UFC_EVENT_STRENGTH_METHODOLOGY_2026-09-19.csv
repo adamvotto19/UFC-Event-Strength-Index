@@ -1,0 +1,20 @@
+section,item,value
+Model,Card Quality Weight,37%
+Model,Star Experience Weight,23%
+Model,Main Event Strength Weight,28%
+Model,Fanfare Weight,12%
+Fanfare,Absolute Search Intended Weight,35% of Fanfare; currently unavailable due Google rate limiting
+Fanfare,Commercial / Audience Intended Weight,30% of Fanfare
+Fanfare,Historical Drawing Intended Weight,25% of Fanfare
+Fanfare,Search Acceleration Weight,10% of Fanfare; never redistributed
+Missing Data,Missing Fanfare,"NaN, never zero; overall model redistributes available component weights"
+Missing Data,Missing Main Event,NaN for intentionally unverified events; overall model redistributes available weights
+Leakage,Fighter Historical Statistics,Calculated entering the event using only prior UFC fights
+Leakage,Historical Audience Drawing,Current event added only after prior drawing score is recorded
+Coverage,Events,788
+Coverage,Fights,8877
+Coverage,Latest Included Event Date,2026-09-19
+Limitation,Search Hype Acceleration,"Measures relative pre-event search acceleration, not absolute popularity"
+Limitation,Gate Coverage,Sparse verified observations; missing gate never treated as zero
+Limitation,PPV Coverage,Conservative reported observations; comparison classes separated by distribution era
+Limitation,September 26 2026,Not included in this validated build; latest included event is September 19 2026
