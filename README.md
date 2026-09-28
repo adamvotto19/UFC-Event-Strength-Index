@@ -2,210 +2,208 @@
 
 ## Which UFC events were the strongest on paper?
 
-The UFC Event Strength Index is a data analytics project that measures
-the strength of UFC events using historical fighter performance,
-rankings, experience, accomplishments, main-event strength, and
-pre-event search interest.
+The **UFC Event Strength Index** is a Python-based sports analytics project designed to quantify and rank the strength of UFC events using historical fighter performance, rankings, experience, accomplishments, main-event quality, and fan interest.
 
-The project analyzes 8,736 UFC fights across 777 events from
-1994 through 2026.
+The current model analyzes **8,877 UFC fights across 788 events**, covering UFC history from **March 1994 through September 19, 2026**.
 
-Each event receives a score from 0 to 100 using four components:
+Each event receives an **Event Strength Score from 0 to 100**.
 
-- Card Quality — 40%
-- Main Event Strength — 30%
-- Star Experience — 25%
-- Fanfare — 5%
+---
 
-All historical fighter statistics are calculated using only information
-available before each fight, preventing future results from influencing
-earlier UFC events.
+## Final Model
 
-## Key Result
+The Event Strength Index combines four major components:
 
-UFC 214: Cormier vs. Jones 2 ranks #1 in the dataset with an
-Event Strength Index of 90.50.
+| Component | Weight |
+|---|---:|
+| Card Quality | 37% |
+| Main Event Strength | 28% |
+| Star Experience | 23% |
+| Fanfare | 12% |
 
+Missing data is **not treated as zero**. When a component is genuinely unavailable, the model dynamically redistributes the available component weights.
 
-## Methodology
+---
 
-The Event Strength Index is built from four components.
+## 1. Card Quality — 37%
 
-### 1. Card Quality — 40%
-
-Measures the overall strength and depth of the full event.
+Card Quality measures the overall competitive strength and depth of the event.
 
 Inputs include:
 
 - Number of title fights
-- Historical UFC rankings
+- Ranking strength
 - UFC experience
-- UFC win percentage
-- Current UFC win streak
-- Historical finishing rate
+- UFC winning percentage
+- Entering-fight win streaks
+- Finishing ability
 
-### 2. Main Event Strength — 30%
+Ranked fighters receive more value based on their ranking position, with champions receiving the highest ranking value.
 
-Measures the strength of the event's headlining matchup.
+---
+
+## 2. Main Event Strength — 28%
+
+Main Event Strength evaluates the experience, accomplishments, form, and ranking strength of the two headliners.
 
 Inputs include:
 
 - Combined UFC experience
-- UFC win percentage
-- Combined win streak
+- UFC winning percentage
+- Entering-fight win streaks
 - Previous title fights
 - Previous UFC main events
-- Previous UFC bonuses
-- Historical rankings
+- Previous performance bonuses
+- Ranking strength
 
-### 3. Star Experience — 25%
+Main events are explicitly verified rather than inferred from fight ordering.
 
-Measures the accomplishments and proven UFC experience across the card.
+---
+
+## 3. Star Experience — 23%
+
+Star Experience measures how accomplished and established the fighters on the card were entering the event.
 
 Inputs include:
 
 - Previous UFC title fights
 - Previous UFC main events
-- Previous UFC performance and fight bonuses
+- Previous UFC performance bonuses
 
-### 4. Fanfare — 5%
+This helps distinguish cards featuring established championship-level or high-profile UFC talent.
 
-Measures pre-event search-interest acceleration using Google Trends.
+---
 
-Search interest during the seven days before an event is compared with
-the fighters' prior baseline interest. The metric is log-transformed to
-reduce the effect of extreme spikes.
+## 4. Fanfare — 12%
 
-Because Google Trends data is not consistently available throughout UFC
-history, missing fanfare data is not treated as a score of zero.
+Fanfare measures available evidence of public and commercial interest surrounding an event.
+
+The framework incorporates:
+
+- Commercial and audience demand
+- Historical drawing power of the headliners
+- Pre-event Google search acceleration
+- Event gate information when available
+- Reported PPV information when available
+
+Search acceleration is limited to its intended contribution so that a large relative Google Trends spike cannot independently create an unrealistically high Fanfare score.
+
+Because historical commercial and search data are incomplete, missing Fanfare evidence is never automatically interpreted as low fan interest.
+
+---
 
 ## Preventing Future Data Leakage
 
-Every historical fighter statistic is calculated as it existed entering
-the fight.
+A major goal of the project is to evaluate fighters based on what was known **entering each event**.
 
-For example, a fighter's UFC record, win streak, title-fight experience,
-main-event experience, and bonus history include only UFC fights that
-occurred before the event being scored.
+Historical fighter variables are calculated chronologically using only previous UFC fights.
 
-This prevents accomplishments earned later in a fighter's career from
-artificially increasing the strength of earlier events.
+Examples include:
 
-## Scoring
+- UFC record entering the fight
+- UFC experience entering the fight
+- Win streak entering the fight
+- Previous title fights
+- Previous main events
+- Previous bonuses
+- Recent UFC form
+- Historical finishing rate
 
-Variables are converted to zero-preserving percentile scores.
+This prevents a fighter's future accomplishments from influencing the score of an earlier UFC event.
 
-A true value of zero remains zero, while positive values are ranked
-relative to the other positive observations. Metrics that did not exist
-during an earlier era, such as official UFC rankings, are treated as
-unavailable rather than zero.
+---
 
-The final Event Strength Index uses:
+## Data Sources
 
-- 40% Card Quality
-- 30% Main Event Strength
-- 25% Star Experience
-- 5% Fanfare
+The project combines information from several sources, including:
 
-When a component is historically unavailable, its weight is redistributed
-across the available components rather than treating missing data as zero.
+- UFC fight and event results
+- UFC.com
+- Historical UFC rankings data
+- Historical performance-bonus data
+- Google Trends
+- Reported event gate and PPV/audience information
 
+Some historical data categories have incomplete coverage. Missing observations are preserved as missing rather than automatically converted to zero.
 
-## Top 10 Strongest UFC Events
+---
 
-| Rank | Event | Date | Event Strength Index |
-|---:|---|---|---:|
-| 1 | UFC 214: Cormier vs. Jones 2 | 2017-07-29 | 90.50 |
-| 2 | UFC Freedom 250 | 2026-06-14 | 89.32 |
-| 3 | UFC 217: Bisping vs. St-Pierre | 2017-11-04 | 89.12 |
-| 4 | UFC 239: Jones vs. Santos | 2019-07-06 | 86.17 |
-| 5 | UFC 269: Oliveira vs. Poirier | 2021-12-11 | 85.76 |
-| 6 | UFC 322: Della Maddalena vs. Makhachev | 2025-11-15 | 85.54 |
-| 7 | UFC 276: Adesanya vs. Cannonier | 2022-07-02 | 84.56 |
-| 8 | UFC 323: Dvalishvili vs. Yan 2 | 2025-12-06 | 84.10 |
-| 9 | UFC 232: Jones vs. Gustafsson 2 | 2018-12-29 | 83.59 |
-| 10 | UFC 308: Topuria vs. Holloway | 2024-10-26 | 83.30 |
+## Project Scale
 
+**788 UFC events**
 
-## Key Findings
+**8,877 UFC fights**
 
-- UFC 214: Cormier vs. Jones 2 ranks as the strongest event in the
-  dataset with an Event Strength Index of 90.50.
+Coverage:
 
-- Among the 50 highest-rated events, Star Experience is the strongest
-  component for 74% of events, while Card Quality is strongest for 24%
-  and Main Event Strength for 2%.
+**March 11, 1994 — September 19, 2026**
 
-- Numbered UFC events average a 56.74 Event Strength score compared
-  with 38.16 for UFC Fight Nights. Event type itself is not included
-  as an input to the model.
+The current validated version intentionally stops at September 19, 2026.
 
-- Strong Fight Night cards can still score highly. The highest-rated
-  Fight Night in the dataset reaches 68.70.
+---
 
-- Event year has only a modest relationship with Event Strength:
-  Pearson correlation = 0.313 and Spearman correlation = 0.283.
+## Current Top 10 Events
 
-- The model is highly stable across alternative component-weighting
-  systems, with rank correlations of approximately 0.99 between the
-  tested models.
+| Rank | Event | Event Strength Score |
+|---:|---|---:|
+| 1 | UFC 269: Oliveira vs. Poirier | 88.88 |
+| 2 | UFC 168: Weidman vs. Silva 2 | 82.56 |
+| 3 | UFC 214: Cormier vs. Jones 2 | 81.96 |
+| 4 | UFC 217: Bisping vs. St-Pierre | 81.80 |
+| 5 | UFC Freedom 250 | 81.73 |
+| 6 | UFC 162: Silva vs. Weidman | 81.47 |
+| 7 | UFC 167: St-Pierre vs. Hendricks | 81.03 |
+| 8 | UFC 112: Invincible | 80.82 |
+| 9 | UFC 302: Makhachev vs. Poirier | 80.79 |
+| 10 | UFC 205: Alvarez vs. McGregor | 80.22 |
 
-## Limitations
+Rankings reflect the current model and can change as additional historical data or future UFC events are incorporated.
 
-- Official UFC rankings are only available beginning in 2013, so
-  ranking information is treated as unavailable for earlier events.
+---
 
-- UFC bonus history begins later than the earliest UFC events.
-  Pre-bonus-era events are not penalized for the absence of bonuses.
+## Repository Contents
 
-- The Google Trends component is available for 505 of the 777 events
-  and is used as a proxy for pre-event fan interest rather than a
-  direct measurement of social-media engagement.
+### `UFC_Event_Strength_Index.ipynb`
 
-- Google Trends data is based on U.S. search interest, which may
-  underrepresent internationally popular fighters and events.
+The primary Python notebook containing the data processing, feature engineering, validation, and Event Strength scoring workflow.
 
-- Google Trends values are relative search-interest measurements,
-  not absolute audience-size measurements.
+### `data/UFC_EVENT_STRENGTH_INDEX_2026-09-19.csv`
 
-- The component weights are modeling choices rather than objectively
-  correct values. Alternative weighting systems were tested to measure
-  ranking sensitivity.
+The primary event-level output containing the final UFC Event Strength rankings and component scores.
 
-- The index measures the strength of an event based primarily on the
-  fighters and information available around the event. It is not a
-  measurement of how entertaining the fights ultimately were.
+### `data/UFC_EVENT_STRENGTH_METHODOLOGY_2026-09-19.csv`
 
+A compact reference documenting model weights, data handling rules, coverage, and methodological limitations.
 
-## Visualizations
+### `data/UFC_EVENT_STRENGTH_METADATA_2026-09-19.json`
 
-### Top 15 Strongest UFC Events
+Metadata describing the current validated version of the project.
 
-![Top 15 Strongest UFC Events](visuals/top_15_ufc_events.png)
+### `visuals/`
 
-### UFC Event Strength Over Time
+Visualizations created from the Event Strength Index.
 
-![Average UFC Event Strength by Year](visuals/event_strength_by_year.png)
+---
 
-### Component Breakdown of the Top 10 Events
-
-![Top 10 Component Breakdown](visuals/top_10_component_breakdown.png)
-
-## Technologies Used
+## Tools Used
 
 - Python
 - pandas
 - NumPy
-- Matplotlib
 - Google Colab
-- Google Trends / pytrends
-- Historical UFC fight, ranking, and bonus data
+- Google Trends
+- GitHub
 
-## Project Files
+---
 
-- `data/UFC_EVENT_STRENGTH_INDEX_FINAL.csv` — final event-level dataset
-- `visuals/top_15_ufc_events.png` — Top 15 ranking visualization
-- `visuals/event_strength_by_year.png` — historical trend visualization
-- `visuals/top_10_component_breakdown.png` — component comparison visualization
-- `README.md` — project methodology, results, findings, and limitations
+## Project Goal
 
+The goal of this project is to turn the subjective question:
+
+**"How strong was this UFC card?"**
+
+into a reproducible data analytics problem.
+
+Rather than relying only on name recognition or personal opinion, the Event Strength Index combines fighter quality, accomplishments, main-event strength, rankings, historical performance, and measurable fan interest into a single quantitative framework.
+
+The project is designed to continue evolving as new UFC events occur and better historical data becomes available.
