@@ -8,6 +8,8 @@ The current model analyzes **8,877 UFC fights across 788 events**, covering UFC 
 
 Each event receives an **Event Strength Score from 0 to 100**.
 
+![Top 15 UFC Events by Event Strength Index](visuals/top_15_ufc_events.png)
+
 ---
 
 ## Final Model
