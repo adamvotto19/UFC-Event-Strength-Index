@@ -25,6 +25,10 @@ The Event Strength Index combines four major components:
 
 Missing data is **not treated as zero**. When a component is genuinely unavailable, the model dynamically redistributes the available component weights.
 
+### Top 10 Event Component Breakdown
+
+![Top 10 UFC Event Component Breakdown](visuals/top_10_component_breakdown.png)
+
 ---
 
 ## 1. Card Quality — 37%
@@ -141,6 +145,10 @@ Coverage:
 **March 11, 1994 — September 19, 2026**
 
 The current validated version intentionally stops at September 19, 2026.
+
+### UFC Event Strength Over Time
+
+![UFC Event Strength by Year](visuals/event_strength_by_year.png)
 
 ---
 
