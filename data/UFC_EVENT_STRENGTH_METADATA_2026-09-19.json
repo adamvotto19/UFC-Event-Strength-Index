@@ -1,0 +1,22 @@
+{
+  "project_name": "UFC Event Strength Index",
+  "project_version": "2026-09-19",
+  "events": 788,
+  "fights": 8877,
+  "earliest_event": "1994-03-11",
+  "latest_event": "2026-09-19",
+  "final_weights": {
+    "card_quality_score": 0.37,
+    "star_experience_score": 0.23,
+    "main_event_score": 0.28,
+    "fanfare_score": 0.12
+  },
+  "fanfare_missing_events": 265,
+  "main_event_missing_events": 3,
+  "notes": [
+    "All historical fighter statistics use only information available before the event.",
+    "Missing evidence is not treated as zero.",
+    "Search acceleration is capped at its intended Fanfare contribution.",
+    "September 26 2026 is not included in this build."
+  ]
+}
